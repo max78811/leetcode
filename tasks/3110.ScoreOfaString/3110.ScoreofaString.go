@@ -1,4 +1,4 @@
-package tasks
+package _110_ScoreOfaString
 
 import "math"
 
