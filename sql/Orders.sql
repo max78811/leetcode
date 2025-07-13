@@ -21,9 +21,7 @@
 -- |      333 |           1 |
 -- +----------+-------------+
 
-select user_id, count(orders.user_id) as order_count from orders
+select orders.user_id, count(orders.price_total) as order_count from orders
 where orders.price_total >= 1000
 group by orders.user_id
-order by count(orderds.user_id) desc
-
-
+order by count(orders.price_total) desc;

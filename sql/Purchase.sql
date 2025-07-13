@@ -19,12 +19,21 @@
 -- Нужно вывести:
 -- Вывести уникальные комбинации пользователя и id товара для всех покупок, совершенных пользователями до того, как их забанили.
 -- Отсортировать сначала по имени пользователя, потом по SKU
---
+
+select distinct users.id
+from users
+         join purchase
+              on users.id = purchase.user_id
+         join ban_list
+              on users.id = ban_list.user_id
+where purchase.date < ban_list.date_from
+order by (users.firstname, purchase.sku);
+
 -- Найти пользователей, которые совершили покупок на сумму больше 5000р.
 -- Вывести их имена в формате id пользователя | имя | фамилия | сумма покупок
 
-select user.user_id, user.firstname, user.lastname, sum(pubchase.price) from user
-join purchase
-on user.id = purchase.user_id
-group by user.user_id, user.firstname, user.lastname
-having sum(pubchase.price) > 5000
+select users.id, users.firstname, users.lastname, sum(purchase.price)
+from users join purchase
+on users.id = purchase.user_id
+group by (users.id, users.firstname, users.lastname)
+having sum(purchase.price) > 5000;
